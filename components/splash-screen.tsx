@@ -27,7 +27,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     >
       <div className="relative animate-pulse">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/kcca-logo.png-UdixvH9lIofr3nKOB7QiZEO1tu6FE0.png"
+          src="/kcca-logo.png"
           alt="KCCA Logo"
           width={200}
           height={200}

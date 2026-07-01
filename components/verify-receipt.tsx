@@ -14,18 +14,23 @@ export function VerifyReceipt() {
   const [isScanning, setIsScanning] = useState(false)
   const [result, setResult] = useState<{ found: boolean; transaction?: Transaction } | null>(null)
 
-  /**
-   * ALIGNED LOGIC: This must match normalizeId in your data-store.ts exactly.
-   * If a QR code contains "KCCA-3909", this ensures we search for "KCCA-3909".
-   */
   const cleanIncomingId = (text: string) => {
-    let id = text.trim().toUpperCase()
-    // Strips prefixes if the QR value is "KCCA-VERIFY:KCCA-3909"
-    if (id.includes(":")) {
-      const parts = id.split(":")
-      id = parts[parts.length - 1]
+    let cleanText = text.trim()
+    
+    // 1. Check for the verification route pattern case-insensitively
+    if (cleanText.toLowerCase().includes("/verify/")) {
+      // Split using a regex to safely catch /verify/ or /VERIFY/
+      const urlParts = cleanText.split(/\/verify\//i)
+      cleanText = urlParts[urlParts.length - 1]
     }
-    // Ensures the search string always has the KCCA- prefix
+    // 2. Clear out legacy standard prefixes separated by colons
+    else if (cleanText.includes(":")) {
+      const parts = cleanText.split(":")
+      cleanText = parts[parts.length - 1]
+    }
+    
+    // 3. Normalize to standard uppercase tracking layout
+    let id = cleanText.trim().toUpperCase()
     return id.startsWith("KCCA-") ? id : `KCCA-${id}`
   }
 
@@ -48,7 +53,7 @@ export function VerifyReceipt() {
           setReceiptId(finalId)
           scanner.clear()
           setIsScanning(false)
-          performVerification(finalId) // Immediate verification after scan
+          performVerification(finalId)
         },
         () => { /* Frame-by-frame silent errors */ }
       )
@@ -61,10 +66,8 @@ export function VerifyReceipt() {
     setIsLoading(true)
     setResult(null)
     
-    // Normalize before search
     const targetId = cleanIncomingId(id)
     
-    // Small delay for better UX (feedback loop)
     await new Promise((resolve) => setTimeout(resolve, 600))
 
     try {
@@ -141,7 +144,6 @@ export function VerifyReceipt() {
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
-                {/* The scanner renders into this div */}
                 <div id="qr-reader" className="overflow-hidden rounded-lg border-2 border-slate-100"></div>
                 <p className="text-[10px] text-center text-muted-foreground mt-4">
                   Point your camera at the receipt QR code
@@ -173,7 +175,7 @@ export function VerifyReceipt() {
                   <div className="flex justify-between border-b border-green-100 pb-1">
                     <span className="text-muted-foreground">Amount Paid:</span>
                     <span className="font-black text-green-700">
-                      UGX {result.transaction?.amount.toLocaleString()}
+                      UGX {result.transaction?.totalAmount?.toLocaleString() ?? "0"}
                     </span>
                   </div>
                   <div className="flex justify-between pt-1">

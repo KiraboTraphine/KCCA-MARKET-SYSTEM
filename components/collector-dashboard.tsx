@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { useAuth } from "@/lib/auth-context"
-// Import the database action instead of the local data-store
 import { getTransactionHistory } from "@/lib/actions" 
 import { DashboardHeader } from "./dashboard-header"
 import { StatsCards } from "./stats-cards"
@@ -24,41 +23,43 @@ export function CollectorDashboard({ onLogout }: CollectorDashboardProps) {
   const [showReceipt, setShowReceipt] = useState<any | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // FIX: This now fetches from Neon instead of local memory
   const loadTransactions = useCallback(async () => {
     if (user?.id) {
       try {
-        const history = await getTransactionHistory(user.id)
-        setTransactions(history)
+        const result = await getTransactionHistory(user.id)
+        
+        if (result && result.success && Array.isArray(result.data)) {
+          setTransactions(result.data)
+        } else {
+          setTransactions([])
+        }
       } catch (error) {
         console.error("Failed to load history from database:", error)
+        setTransactions([])
       } finally {
-        setIsLoading(false)
+        isLoading(false)
       }
     }
   }, [user?.id])
 
   useEffect(() => {
     loadTransactions()
-    // Refresh every minute to keep data in sync
     const interval = setInterval(loadTransactions, 60000)
     return () => clearInterval(interval)
   }, [loadTransactions])
 
   const handlePaymentSuccess = (transaction: any) => {
     setShowReceipt(transaction)
-    // Refresh the list from the database immediately after a successful payment
     loadTransactions()
   }
 
-  const todayRevenue = transactions.reduce((sum, t) => sum + t.amount, 0)
-  const todayCount = transactions.length
+  const todayRevenue = (transactions || []).reduce((sum, t) => sum + Number(t.totalAmount || 0), 0)
+  const todayCount = (transactions || []).length
 
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader onLogout={onLogout} />
 
-      {/* Hero Section - Keeping your original KCCA Green gradient */}
       <div className="relative h-32 bg-gradient-to-r from-[var(--kcca-green)] to-[var(--kcca-green)]/80 overflow-hidden">
         <Image
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/market.jpg-p48pC1kbaQzMu7vycXk3qYW2Hi2FuU.png"
@@ -84,7 +85,6 @@ export function CollectorDashboard({ onLogout }: CollectorDashboardProps) {
           />
         </div>
 
-        {/* Tabs Section - Keeping your original KCCA Red active states */}
         <Tabs defaultValue="collect" className="space-y-4">
           <TabsList className="grid w-full grid-cols-3 h-12 bg-muted">
             <TabsTrigger value="collect" className="data-[state=active]:bg-[var(--kcca-red)] data-[state=active]:text-white">
@@ -103,7 +103,6 @@ export function CollectorDashboard({ onLogout }: CollectorDashboardProps) {
 
           <TabsContent value="collect" className="space-y-4">
             <div className="grid lg:grid-cols-2 gap-6">
-              {/* This form now handles the PIN and 30s delay logic */}
               <CollectionForm onSuccess={handlePaymentSuccess} />
               <RecentTransactions transactions={transactions} maxItems={5} isLoading={isLoading} />
             </div>
@@ -116,7 +115,6 @@ export function CollectorDashboard({ onLogout }: CollectorDashboardProps) {
           </TabsContent>
 
           <TabsContent value="history">
-            {/* Show all transactions here, now persistent from the database */}
             <RecentTransactions transactions={transactions} maxItems={100} isLoading={isLoading} />
           </TabsContent>
         </Tabs>

@@ -4,83 +4,92 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* KCCA Official Colors */
-  --kcca-red: #ED2024;
-  --kcca-yellow: #FBDE0A;
+  /* Adjusted KCCA Brand Colors */
+  --kcca-red: #003366;    
+  --kcca-yellow: #FBDE0A; 
   --kcca-green: #0C7240;
   --kcca-black: #000000;
   --kcca-white: #FFFFFF;
   
   --background: #FFFFFF;
-  --foreground: #000000;
+  --foreground: #0f172a;
   --card: #FFFFFF;
-  --card-foreground: #000000;
+  --card-foreground: #0f172a;
   --popover: #FFFFFF;
-  --popover-foreground: #000000;
-  --primary: #ED2024;
+  --popover-foreground: #0f172a;
+  
+  /* FIXED: Light Blue for the Login Button and other Primaries */
+  --primary: #2563eb; 
   --primary-foreground: #FFFFFF;
-  --secondary: #F5F5F5;
-  --secondary-foreground: #000000;
-  --muted: #F5F5F5;
-  --muted-foreground: #666666;
+  --secondary: #f1f5f9;  
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
   --accent: #FBDE0A;
-  --accent-foreground: #000000;
-  --destructive: #ED2024;
+  --accent-foreground: #0f172a;
+  
+  /* Feedback Colors */
+  --destructive: #ef4444; 
   --destructive-foreground: #FFFFFF;
-  --success: #0C7240;
+  --success: #22c55e;    
   --success-foreground: #FFFFFF;
-  --border: #E5E5E5;
-  --input: #E5E5E5;
-  --ring: #ED2024;
-  --chart-1: #ED2024;
-  --chart-2: #0C7240;
-  --chart-3: #FBDE0A;
-  --chart-4: #333333;
-  --chart-5: #666666;
+  
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3b82f6;
+  
+  --chart-1: #2563eb;
+  --chart-2: #22c55e;
+  --chart-3: #f59e0b;
+  --chart-4: #6366f1;
+  --chart-5: #ec4899;
+  
   --radius: 0.625rem;
-  --sidebar: #FAFAFA;
-  --sidebar-foreground: #000000;
-  --sidebar-primary: #ED2024;
+  
+  /* Sidebar - Lighter feel */
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #2563eb;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F5F5F5;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #E5E5E5;
-  --sidebar-ring: #ED2024;
+  --sidebar-accent: #eff6ff;
+  --sidebar-accent-foreground: #1d4ed8;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #3b82f6;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: #020617;
+  --foreground: #F8FAFC;
+  --card: #020617;
+  --card-foreground: #F8FAFC;
+  --popover: #020617;
+  --popover-foreground: #F8FAFC;
+  --primary: #60a5fa; 
+  --primary-foreground: #020617;
+  --secondary: #1E293B;
+  --secondary-foreground: #F8FAFC;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #1E293B;
+  --accent-foreground: #F8FAFC;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #F8FAFC;
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #60a5fa;
+  --chart-1: #38BDF8;
+  --chart-2: #4ADE80;
+  --chart-3: #FBBF24;
+  --chart-4: #818CF8;
+  --chart-5: #F472B6;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-primary: #60a5fa;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #60a5fa;
 }
 
 @theme inline {
@@ -129,6 +138,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }
